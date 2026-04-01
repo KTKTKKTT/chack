@@ -1,18 +1,22 @@
 'use client'
-import Image from "next/image";
 import { useState, useEffect } from "react";
 
-export default function Home() {
-  const [tasks, setTasks] = useState([]);
+type Task = {
+  id: number;
+  name: string;
+  done: boolean;
+};
 
-  // 🔽 初回ロード時にlocalStorageから読み込み
+export default function Home() {
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  // 初回ロード
   useEffect(() => {
     const savedTasks = localStorage.getItem("tasks");
 
     if (savedTasks) {
-      setTasks(JSON.parse(savedTasks));
+      setTasks(JSON.parse(savedTasks) as Task[]);
     } else {
-      // 初回だけ初期データを入れる
       setTasks([
         { id: 1, name: '英語冊子', done: false },
         { id: 2, name: '漢字', done: false },
@@ -26,14 +30,14 @@ export default function Home() {
     }
   }, []);
 
-  // 🔽 tasksが変わるたび保存
+  // 保存
   useEffect(() => {
     if (tasks.length > 0) {
       localStorage.setItem("tasks", JSON.stringify(tasks));
     }
   }, [tasks]);
 
-  const toggleTask = (id) => {
+  const toggleTask = (id: number) => {
     setTasks(tasks.map(task =>
       task.id === id ? { ...task, done: !task.done } : task
     ));
@@ -60,12 +64,13 @@ export default function Home() {
           </label>
         </div>
       ))}
+
       <button onClick={() => {
         localStorage.removeItem("tasks");
-    setTasks([]); // 画面もリセット
-    }}>
-  リセット
-</button>
+        setTasks([]);
+      }}>
+        リセット
+      </button>
     </div>
   );
 }
