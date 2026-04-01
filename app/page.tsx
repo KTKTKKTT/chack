@@ -21,7 +21,7 @@ export default function Home() {
         { id: 1, name: '英語冊子', done: false },
         { id: 2, name: '漢字', done: false },
         { id: 3, name: '古文', done: false },
-        { id: 4, name: '漢字', done: false },
+        { id: 4, name: '漢文', done: false },
         { id: 5, name: '数学', done: false },
         { id: 6, name: '国語要約３つ', done: false },
         { id: 7, name: '作文', done: false },
@@ -64,13 +64,6 @@ export default function Home() {
           </label>
         </div>
       ))}
-
-      <button onClick={() => {
-        localStorage.removeItem("tasks");
-        setTasks([]);
-      }}>
-        リセット
-      </button>
     </div>
   );
 }
